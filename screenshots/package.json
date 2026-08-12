@@ -2,7 +2,7 @@
   "name": "@tabler/screenshots",
   "private": true,
   "type": "module",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Astro app: one page per UI component, for automated screenshotting",
   "engines": {
     "node": ">=22.12.0"

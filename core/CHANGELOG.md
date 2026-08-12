@@ -1,5 +1,104 @@
 # @tabler/core
 
+## 2.0.0
+
+### Major Changes
+
+- bea97f8: Removed `@hotwired/turbo` integration, including `.turbo-progress-bar` styles and the Turbo loader preview demo.
+- 8962710: Remove unused SCSS `!default` variables (deprecated Bootstrap leftovers such as `$variable-prefix`, `$alert-*-scale`, accordion icon/button variables, `$popover-arrow-*`, numbered `$font-size-*` / `$line-height-*` scales and others). Configuring any of the removed variables via `@use ... with (...)` now
+  raises a Sass error — they had no effect on the compiled CSS before. The color shade ladders (`$blue-100`…`$cyan-900`) and per-color maps (`$blues`…`$cyans`) are kept as configurable API. Compiled CSS output is unchanged.
+
+### Minor Changes
+
+- 9ea657b: Added `.text-gray-*` utility classes (`.text-gray-50` through `.text-gray-950`) alongside the existing `.bg-gray-*` and `.text-gray-*-fg` utilities.
+- 5e119d4: Added Pay page with dedicated layout, navigation link, and card/PayPal payment form.
+- 100a37b: Added background pattern utilities and documentation, including updated preview demos.
+- 9d5c83f: Vendored Bootstrap 5.3.8 into core: migrated SCSS and JS to Tabler source tree, refactored mixins to module syntax, converted Bootstrap components to TypeScript.
+- 9c5d729: Added `.btn-ghost` button variant with transparent background and hover effects.
+- ec94693: Added `.card-gradient` component with gradient variants, direction modifiers, and animated backgrounds.
+- 324b0fb: Added `--card-header-bg` and `--card-footer-bg` CSS variables (with `$card-header-bg` and `$card-footer-bg` Sass defaults) so `.card-header` and `.card-footer` backgrounds can be overridden independently, and made `.card-header` transparent by default instead of using `--card-cap-bg`.
+- a198b0c: Added Geist font family integration.
+- 8d8727f: Added language selector dropdown to navbar with flag indicators for multilingual support.
+- 48dbd1e: Migrated the core build system from Rollup to Vite. Replaced `rollup.config.mjs` with `vite.config.mjs` and updated build scripts to use `vite build` instead of `rollup`. Build outputs remain identical (UMD and ESM formats) with no breaking changes for end users.
+- 4ce08ca: Refactored the navbar-side component and reorganized its apps, language, notifications, theme and user sections for better maintainability.
+- cad8eb8: Removed the `$prefix` Sass variable and its `--#{$prefix}` interpolations; the `--tblr-` custom property prefix is now applied at build time by `postcss-prefix-custom-properties`. Compiled CSS is unchanged, but the prefix can no longer be customised by overriding `$prefix` before importing the Sass sources.
+- 9c5d729: Added Progress Background component with text labels and value display.
+- 9c5d729: Added `.progress-lg` and `.progress-xl` size variants for the progress component.
+- 9c5d729: Added Progress Steps component for step-by-step navigation indicators.
+- 9820d11: Updated core SCSS to the Sass module system with `@use`/`@forward`, including `_extends.scss` for cross-module `@extend` rules and a parameterized `utilities-api` mixin for marketing utilities.
+- 7556ae2: Added `auto` color mode to theme settings with system `prefers-color-scheme` support and an inverted primary color scheme option.
+- e3d86c5: Upgraded `apexcharts` from `3.54.1` to `5.3.6` and added CSS variables (`--chart-{id}-color-{index}`) for dynamic chart colors to fix compatibility with the new version.
+
+### Patch Changes
+
+- 1effe22: Fixed keyboard focus indicators that were invisible or removed on `.btn-action`, `.switch-icon`, calendar dates and the toast close button, added `prefers-reduced-motion` and `forced-colors` support, stopped overriding the browser's default root font size, and enlarged the `.btn-close` touch target to
+  `24px`.
+- dd4214b: Fixed accessibility issues for skip links, keyboard focus, `prefers-reduced-motion`, form labels, and action controls that incorrectly used links instead of `button` elements.
+- 059bae1: Refactored Bootstrap exports to use single source of truth in `bootstrap.js` and removed duplicate exports from `tabler.js` for better maintainability.
+- 5018aa9: Fixed `.btn-icon` to be square by aligning `min-width` calculation with base `.btn` formula.
+- a508bb6: Replaced hardcoded `rem` and `px` spacing, sizing, and offset values with SCSS variables across icon, avatar, badge, button, card, alert, empty state, ribbon, status, dropdown, form, nav, pagination, progress, steps, and tag components for easier theme customization.
+- a0d84f6: Updated the npm package README with badges, quick links, CDN usage, documentation and changelog links.
+- c860288: Fixed icon alignment for `.btn-sm` and `.btn-xl` sizes.
+- 9d5c83f: Added support for `data-tblr-*` attributes alongside `data-bs-*` for dropdown and other components.
+- 2dc7eda: Updated `$border-color-translucent-dark` from `rgba(72, 110, 149, 0.14)` to `rgba(128, 150, 172, 0.2)` to improve visibility of form checkboxes and other form elements in dark mode.
+- 8324701: Fixed `.card-header` background-color to respect the `--tblr-card-cap-bg` CSS variable instead of being silently overridden by a `background: transparent` shorthand.
+- 70ec683: Fixed card corner radius in tab layouts when tabs sit above or below tab content.
+- de44d61: Fixed `.card-tabs .nav-tabs` sharing `z-index` with `.dropdown-menu`, which made dropdowns opened over card tabs render behind them.
+- 6414238: Fixed barely visible checkbox and radio borders in dark theme by using `$input-border-color` instead of translucent border color for `.form-check-input`.
+- b1d49e9: Fixed CountUp to parse formatted number targets and avoid double-start when `enableScrollSpy` is enabled.
+- 601e950: Fixed dark mode text selection contrast by adding `--tblr-selection-bg` CSS variable with `0.4` opacity override in dark mode.
+- d0a793c: Fixed disabled form control background in dark theme by introducing `--tblr-bg-forms-disabled` (gray-800) so disabled inputs are visually distinct from enabled ones.
+- b1d49e9: Fixed dropdown `data-bs-boundary="viewport"` to use `document.documentElement` instead of the first `.btn` element.
+- c527135: Fixed `.input-icon` inline-start padding for `.form-select` by updating the selector from `:not(:last-child)` to `:not(:first-child)`.
+- 70f069c: Fixed `.form-select` keeping its default box-shadow inside `.input-group` by adding it to the existing `.form-control`/`.btn` box-shadow reset.
+- 9c78cf6: Fixed `.bg-gradient` utility conflicts to restore `from`/`via`/`to` gradient rendering and updated gradient documentation examples to match available classes.
+- bc24b3a: Fixed `--tblr-gray-*-fg` token generation to map directly to `--tblr-gray-*` instead of contrast-based fallbacks that could resolve to white.
+- c8b8b24: Fixed gray theme custom properties output using SCSS interpolation and updated default `$body-color` to `$gray-500`.
+- 70193fe: Fixed transform animations (`.icon-pulse`, `.icon-tada`, `.icon-rotate`) not working on webfont icons by adding `display: inline-block` and `transform-origin: center` to `.icon`.
+- f0b909d: Fixed `sm` and `lg` size consistency for form controls, buttons, and input groups by aligning `line-height` and computed height variables to resolve [#2456](https://github.com/tabler/tabler/issues/2456).
+- 6e656ad: Fixed `.input-icon-addon` z-index issue with form validation feedback and added default height.
+- b1d49e9: Fixed input mask `lazy` option to read `data-mask-visible` via `dataset.maskVisible`.
+- 218b0c5: Fixed multi-value `border-radius` squircle scaling in `border-radius()` by scaling each corner value separately.
+- 8bc6fa7: Fixed status color classes to use CSS variables instead of hardcoded values and include social colors (bitbucket, facebook, etc.) in status class generation.
+- c527135: Fixed `.steps` horizontal overflow on small screens by enabling scrollable overflow below the `sm` breakpoint.
+- cd0b210: Fixed a stray vertical line and extra indentation on the `.steps` component, caused by the unrelated typographic `.steps` rule in `ui/_type.scss` leaking its guideline, padding and margins onto it. The typographic rule now skips any element with `.step-item` children, so the two no longer collide. It also no
+  longer inherits the component's flex layout, and so works without `.steps-vertical` alongside it.
+- 6849337: Fixed Tom Select dropdown and control styles to use `--tblr-*` CSS variables instead of undefined `--bs-*` references from the bootstrap5 preset.
+- e206d7a: Fixed white space on left side when scrollbar is present by replacing `margin-inline-start: calc(100vw - 100%)` with `scrollbar-gutter: stable` on `html` element, with `overflow-y: scroll` fallback for unsupported browsers.
+- 4ce08ca: Updated flags and avatars styling for better visual consistency.
+- 6db32ea: Unified local and CI quality gates: added root-level `lint-prettier`/`format-prettier` scripts covering `core`, `preview`, and `shared`, wired `check` to run lint and type-check together, and updated the lint workflow to run both. Reformatted the covered files with Prettier.
+- b8b63d7: Fixed mixed declarations in SCSS.
+- 0106d6b: Update SCSS to use logical properties
+- 9432835: Implement `border-radius` mixin across various SCSS files
+- 9c5d729: Updated `stroke-width` for `.icon-sm` from `1` to `1.5` for better visibility.
+- 5e119d4: Added `bg-blur` utility and increased `container-tight` width for layout flexibility.
+- fa678a7: Updated root color tokens to use CSS `light-dark()` so paired light and dark values live in one `:root` declaration instead of separate dark-mode overrides.
+- 3aba62e: Added `border-top-left-radius` and `border-top-right-radius` to first and last child elements in `.card-table` for proper corner rounding.
+- 0c79963: Added `media-print` mixin and print styles to hide interactive components during printing.
+- 7ae422f: Migrated all physical CSS direction properties to logical properties (`padding-inline`, `margin-inline`, `inset-inline`, `float: inline-start`/`inline-end`, `text-align: start/end`) for improved RTL support and reduced RTL stylesheet generation overhead.
+
+  Directional transforms, which have no logical equivalent, now use a `--tblr-dir` direction multiplier (`1` in LTR, `-1` under `[dir="rtl"]`), e.g. `translateX(calc(var(--tblr-dir) * 4px))`. These declarations are identical in `tabler.css` and `tabler.rtl.css` — the flip happens at runtime via the `dir` attribute, so
+  RTL transforms now also work when using plain `tabler.css` with `dir="rtl"`.
+
+- 301e778: Migrated `rgba()` functions to modern CSS color functions (`color-mix()` and `color-transparent()`) for better browser support and cleaner code. Replaced `rgba(var(*-rgb), ...)` with `color-mix(in srgb, var(*) ..., transparent)`, static percentage `color-mix()` with `color-transparent()`, and
+  `rgba($variable, ...)` with `color-transparent($variable, ...)`.
+- 9a3361f: Fixed double bottom border in tables.
+- 9c5d729: Added smooth transitions for progress bar `width` and `background-color` changes.
+- 1489b13: Added `.prose` alias for markdown content and updated preview/docs references and redirects.
+- 41ed22a: Removed redundant nullish coalescing operator from `html` option in popover and tooltip initialization.
+- 66dc336: Fixed the `caret()` mixin by restoring `$caret-width` to `0.36em`, which had shrunk to `0.3em` in a previous SCSS refactor.
+- a373e17: Added SCSS unit test suite with `sass-true` and `test:scss` Vitest config for Bootstrap and Tabler mixins, utilities, and helpers.
+- 83ec6f8: Added Driver.js library integration and Tour demo page for interactive product tours and onboarding guides.
+- 9c5d729: Updated skip-link to use `visually-hidden` for improved accessibility.
+- 346e091: Fixed oversized `dist/libs` by copying only the runtime files each library declares in `libs.json`, plus the assets HugeRTE loads at runtime and every upstream license file.
+- 9cc9a36: Added Stylelint for SCSS and cleaned up the issues it found: removed dead and duplicate rules, replaced named colors (`white`, `red`) with variables, simplified redundant `&` nesting selectors, and fixed a missing space in a `.form-switch` transition declaration.
+- 736e604: Updated deprecated global Sass functions to module equivalents (`map.merge`, `string.slice`, `math.percentage`, etc.).
+- f8dee0a: Updated Bootstrap to v5.3.8.
+- 9c5d729: Updated trending component to use `arrow-up`/`arrow-down` instead of `trending-up`/`trending-down`.
+- 70ec683: Updated `$card-status-size` default from `$border-width-wide` to `3px`.
+- 666ccd6: Updated shadow tokens (`--tblr-shadow-*`) to use the new `xs`–`2xl` and `overlay` values.
+- 9d5c83f: Added Vitest for unit tests and Playwright for visual tests of Bootstrap DOM and components.
+
 ## 1.4.0
 
 ### Minor Changes
